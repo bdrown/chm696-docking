@@ -1,0 +1,14 @@
+#!/bin/bash  
+#
+#SBATCH -A scholar
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=16
+#SBATCH --time=01:00:00
+#SBATCH --job-name 2tio_vs_rescore
+#SBATCH --error=%x-%J-%u.err
+#SBATCH --output=%x-%J-%u.out
+ 
+module load gcc/12.3.0
+module load openmpi
+ 
+mpirun -n 16 $DOCK_BASE_MPI/bin/dock6.mpi -i rescore.in -o rescore.out

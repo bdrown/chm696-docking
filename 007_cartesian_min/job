@@ -1,0 +1,14 @@
+#!/bin/bash  
+#
+#SBATCH -A scholar
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=00:20:00
+#SBATCH --job-name 2ito_vs_min
+#SBATCH --error=%x-%J-%u.err
+#SBATCH --output=%x-%J-%u.out
+
+module load gcc/12.3.0
+module load openmpi
+
+mpirun -n 8 $DOCK_BASE_MPI/bin/dock6.mpi -i min.in -o min.out
