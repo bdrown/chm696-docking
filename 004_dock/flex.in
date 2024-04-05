@@ -13,13 +13,13 @@ write_growth_tree                                            no
 use_internal_energy                                          yes
 internal_energy_rep_exp                                      12
 internal_energy_cutoff                                       100.0
-ligand_atom_file                                             ../001_structure/2ITO_ligand_only.mol2
+ligand_atom_file                                             2ITO.lig.min_scored.mol2
 limit_max_ligands                                            no
 skip_molecule                                                no
 read_mol_solvation                                           no
 calculate_rmsd                                               yes
 use_rmsd_reference_mol                                       yes
-rmsd_reference_filename                                      ../001_structure/2ITO_ligand_only.mol2
+rmsd_reference_filename                                      2ITO.lig.min_scored.mol2
 use_database_filter                                          no
 orient_ligand                                                yes
 automated_matching                                           yes

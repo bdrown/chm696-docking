@@ -14,5 +14,5 @@ bump_filter                  yes
 bump_overlap                 0.75
 receptor_file                ../001_structure/2ITO_protein_with_charges.mol2
 box_file                     2ITO.box.pdb
-vdw_definition_file          /class/bsdrown/parameters/vdw_AMBER_parm99.defn
+vdw_definition_file          /class/bsdrown/data/parameters/vdw_AMBER_parm99.defn
 score_grid_prefix            grid
