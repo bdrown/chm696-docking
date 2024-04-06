@@ -1,0 +1,14 @@
+#!/bin/bash  
+#
+#SBATCH -A scholar
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=32
+#SBATCH --time=04:00:00
+#SBATCH --job-name 2ito_large_vs_4
+#SBATCH --error=%x-%J-%u.err
+#SBATCH --output=%x-%J-%u.out
+ 
+module load gcc/12.3.0
+module load openmpi
+
+mpirun -n 32 $DOCK_BASE_MPI/bin/dock6.mpi -i virtual_4.in -o virtual_4.out
