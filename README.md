@@ -1,0 +1,1 @@
+Adapted from the Rizzo lab's [tutorial for docking with Dock6](https://ringo.ams.stonybrook.edu/index.php/2024_DOCK_tutorial_1_with_PDBID_2ITO)
