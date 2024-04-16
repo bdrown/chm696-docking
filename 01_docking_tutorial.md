@@ -13,6 +13,8 @@ More info about compute clusters at Purdue is available at [RCAC's website](http
 ## Accessing Scholar via ThinLinc
 If you want a desktop environment, point a web browser to `desktop.scholar.rcac.purdue.edu`. You will be prompted for a username and password. Note that you will need to use your BoilerKey rather than Career Account password and use two-factor authentication. With this desktop environment, you can run Chimera, prepare proteins for docking, and visualize results.
 
+![Scholar Login](images/scholar_login.png)
+
 ## Accessing Scholar via SSH
 If you just need to run programs via a command line interface, accessing Scholar via SSH makes sense. Again, your credentials for logging in are your netid and BoilerKey. More details about authentication is in on [RCAC's website](https://www.rcac.purdue.edu/news/2101).
 
@@ -52,29 +54,105 @@ When files are publicly hosted, it is sometimes more efficient to have a remote 
 mkdir -p ~/CHM696/001_structure
 cd ~/CHM696/001_structure
 # fetch file from PDB
-wget ######################
+wget -O 2ITO.pdb.gz https://files.rcsb.org/download/2ITO.pdb1.gz
 ```
 
-## Download and thenTransfer file (option 2)
-Towards the right hand side, click on Download Files, and select "Biological Assembly 1 (PDB - gz)"
+You should now have a file named `2ITO.pdb.gz` in the folder `001_structure`.
 
-# Fix Missing Loops
+## Download file by navigating to page with Firefox (option 2)
+
+Firefox is the internet browswer installed on Scholar. You can use it to visit RSCB PDB and download the structure coordinates. Towards the right hand side of the 2ITO entry page, click on Download Files, and select "Biological Assembly 1 (PDB - gz)"
+![Download PDB](images/pdb_download.png)
+
+This will download the coordinates and save the file in `/homes/USERNAME/Downloads`. Move the file to `~/CHM696/001_structure` with the File Manager.
+
+# Prepare structures for docking with Chimera
+
+The following steps will demonstrate the preparation of the protein and ligand which will be used by DOCK6. While there are other ways to prepare structures, Chimera makes it convenient through a graphical user interface.
+
+To launch Chimera, open a terminal and run the command `chimera`. If this fails and you have not copied the `bash_profile` as described above, the full path to Chimera is `/class/bsdrown/apps/chimera-1.17.3/bin/chimera`.
+
+Open the `2ITO.pdb.gz` file that you downloaded from RSCB PDB and inspect the structure.
+
+## Fix Missing Loops
 You will notice that there are some disordered regions of the crystal structure that resulted in missing loops (indicated by dashed lines). There are many methods for modeling missing structures, but we will run [Modeller](https://salilab.org/modeller/) directly through Chimera. To fix the missing sections, go to Tools -> Surface Editing -> Model/Refine Loops. Two dialogue boxes will appear
 
 ![Running Modeller](images/running_modeller.png)
 
-# Prepare Protein
-Structures obtained by X-ray crystallography generally do not include coordinates for hydrogens as they have insufficient electron density to be observed. We will need to add hydrogens and calculate atomic partial charges for both the protein/receptor and ligand/small-molecule, but we'll process then independently.
+In the Model Loops / Refine Structure window select the following parameters. The location of the Modeller executable is `/class/bsdrown/apps/modeller/bin/mod10.5`. With the appropriate options selected, click OK to run Modeller on the head node. Depending on the size of the loops that need to be generated, Modeller can take 5-10 minutes.
 
-# Prepare Ligand
-As was done for the protein, we'll select the small-molecule ligand
+![Modeller Options](images/modeller_options.png)
+
+Modeller will generate 5 models from which we can choose.  Decide which one you want to keep, highlight it and save the file by choosing File → Save PDB. In the dialogue box, be sure to give this file a new name so as not to overwrite the original `2ITO.pdb` file, something similar to `2ITO_loops_fixed.pdb`. In the 'Save models' section, choose the model number chosen. To confirm that everything has worked correctly, close the current session in Chimera and open `2ITO_loops_fixed.pdb`. Now no dashed lines should be seen and only the structure with the fixed loops.
+
+![Modeller Results](images/modeller_results.png)
+
+## Prepare Protein
+Structures obtained by X-ray crystallography generally do not include coordinates for hydrogens as they have insufficient electron density to be observed. We will need to add hydrogens and calculate atomic partial charges for both the protein/receptor and ligand/small-molecule, but we'll process then independently. The first step in preparing the protein is to get the protein structure alone in a `.pdb` file. To do this:
+
+1. Select an atom on the protein by folding Ctrl and left-clicking an atom.
+2. Press the up arrow until the entire protein is selected
+3. Go to Select → Invert (all models). This will change the selection from the protein to everything else in the structure
+4. Go to Actions → Atoms/Bonds → Delete
+5. Save the structure with a new file name (i.e. `2ITO_protein_only.pdb`). Your pdb file will now look similar to this:
+
+![Protein Only](images/protein_only.png)
+
+At this point we also need to generate a `.mol2` file for the structure in this state. Go to File → Save Mol2 and give the file a descriptive name such as `2ito_protein_no_hydrogens_no_charges.mol2`
+
+There are now two more steps necessary for its preparation:
+
+1. Adding hydrogens
+2. Adding charge
+
+To add hydrogen atoms click on: Tools → Structure Editing → AddH. This command will cause the following dialogue box to appear:
+
+![Add Hydrogens to Protein](images/protein_add_hydrogens.png)
+
+If the hydrogen atoms were successfully added, white ends to the atoms would appear which are the hydrogens. The final step is to add charges to the protein. To add charges click on Tools → Structure Editing → Add Charge and the following dialogue box will show up:
+
+![Add Charge to Protein](images/protein_add_charge.png)
+
+Click on 'OK' and once the program is finished the bottom left hand corner tells what the total charge of the structure is. This number should be an integer (e.g. -8). The protein structure is now completely prepared and ready for docking. The final step is to save two files, a .pdb of the structure in this state and a .mol2 file. Simply go to File → Save PDB and choose a filename such as `2ITO_protein_with_charges.pdb`; then go to File → Save Mol2 and choose a filename such as `2ITO_protein_with_charges.mol2`.
+
+## Prepare Ligand
+
+Close your Chimera session and reopen the `2ITO.pdb` file. As was done for the protein, we'll select the small-molecule ligand, add hydrogens, and determine partial charges. To do this:
+
+1. Select an atom on the ligand by holding Ctrl and left-clicking
+2. Press the up arrow until the entire ligand is selected (press the up arrow many times)
+3. Go to Select → Invert (all models). This will change the selection from the ligand to everything else in the structure
+4. Go to Actions → Atom/Bonds → Delete
+   
+Before we start preparing the ligand for docking we need to again save a `.mol2` file for the structure in this state. Go to File → Save Mol2 and give the file a descriptive name such as `2ITO_no_hydrogens_no_charges.mol2`.
+
+Once the ligand is saved as its own file the same two steps are followed as for the protein:
+
+1. Add hydrogens
+2. Add charges
+
+The final step is to add charges to the ligand. The same steps as for the protein are followed except after the dialogue box appear and click 'OK', a second box will appear in which the net charge of the ligand is specificied:
+
+![Ligand Net Charge](images/ligand_netcharge.png)
+
+Select OK and partial charges for the ligand will be calculated. Calculations are complete when a total charge for the molecule is displayed in the bottom-left corner of the window.
+
+The ligand is ready for docking. The final step is to again save two files, a `.pdb` and `.mol2` of the structure in this state. Go to File → Save Mol2 and give the file a name such as `2ITO_ligand_only.mol2` and File → Save PDB and give the file a name such as `2ITO_ligand_only.pdb`.
+
+![Ligand Prepared](images/ligand_prepared.png)
 
 # Creating the Protein Binding Site Surface
 
-## Create DMS file
-In Chimera, open the 2ITO_protein_only.pdb file. Go to Actions -> Surface -> Show.
+This section walks through the steps necessary to identify the binding site of the protein using a function within DOCK to place surface spheres along the protein.
 
-Generate the .dms file by selecting Tools -> Structure Editing -> Write DMS. A dialogue box will appear and you should provide a reasonable filename and save it to `002_surface_spheres`, such as `2ITO_surface.dms`. Once this file is daved, make sure the surface was created correctly. Close the current session in Chimera, open `2ITO_protein_only.pdb` and then open `2ITO_surface.dms`. The small dots (which is the .dms file) should be aligned over the protein structure.
+## Create DMS file
+In Chimera, open the `2ITO_protein_only.pdb` file. Go to Actions -> Surface -> Show.
+
+![Protein Surface](images/protein_surface.png)
+
+Generate the .dms file by selecting Tools -> Structure Editing -> Write DMS. A dialogue box will appear and you should provide a reasonable filename and save it to `002_surface_spheres`, such as `2ITO_surface.dms`. Once this file is daved, make sure the surface was created correctly. Close the current session in Chimera, open `2ITO_protein_only.pdb` and then open `2ITO_surface.dms`. The small dots (which is the .dms file) should be aligned over the protein structure. If everything looks good, we can continue to further steps.
+
+![Protein DMS](images/protein_dms.png)
 
 ## Generate Spheres for the Binding Site
 Now that a .dms file has been generated, the binding site of the protein is found using a DOCK program called `sphgen`. This program is run on the command line on Scholar. We need to provide `sphgen` with parameters to run; these parameters are provided in a file, `INSPH`. You can generate this file yourself or use the one provided in this repository. Let's take a look at `INSPH`:
@@ -120,7 +198,7 @@ While this looks good one should verify that the spheres are actually where the 
 
   1. Hold down ctrl and click on a sphere
   2. Press the up arrow until all spheres are selected Actions → Atoms/Bonds → hide
-  3. Verify the ligand is where the spheres were
+  3. Verify the ligand is where the spheres are
    
 ## Box and Grid Generation
 
@@ -320,6 +398,8 @@ Dock6 should take 30 seconds to a minute to complete so if it completes immediat
 Using Chimera, compare the binding poses of the ligand predicted by rigid vs. fixed anchor docking:
 
 ![Rigid vs Fixed](images/rigid_vs_fixed.png)
+
+Hopefully you can see a difference in the pose of the morpholino chain.
 
 ## Flexible Docking
 In this next portion, we will using flexible docking in which all conformations of the input ligand are tested. This is the most computational expensive method for docking ligands, thus we can expect that this method will take the longest time to screen a library of ligands.
@@ -734,3 +814,27 @@ For this step, not only will we try to re-dock the molecule, but we would also r
  rank_ligands                                                 no
 ```
 
+Despite being a fast computation, we'll still submit this as a job to Slurm:
+
+```sh
+#!/bin/bash  
+#
+#SBATCH -A scholar
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=16
+#SBATCH --time=01:00:00
+#SBATCH --job-name 2tio_vs_rescore
+#SBATCH --error=%x-%J-%u.err
+#SBATCH --output=%x-%J-%u.out
+ 
+module load gcc/12.3.0
+module load openmpi
+ 
+mpirun -n 16 $DOCK_BASE_MPI/bin/dock6.mpi -i rescore.in -o rescore.out
+```
+
+Run the job:
+
+```sh
+sbatch job
+```
