@@ -32,7 +32,7 @@ A SSH client will be needed like [PuTTY](https://www.putty.org/)
 If you haven't already cloned this repository, do so now.
 
 ```sh
-git clone git@github.com:bdrown/CHM696.git
+git clone https://github.com/bdrown/chm696-docking.git
 ```
 
 The programs used in this tutorial and assignment are located on shared storage located at `/class/bsdrown/apps`. To make them more easily accessible, we can introduce a short script that runs whenever a terminal is openned. Connect to Scholar via ThinLinc and open the terminal. If this repository has been cloned, then copy the bash_profile to your home directory:
@@ -51,8 +51,8 @@ When files are publicly hosted, it is sometimes more efficient to have a remote 
 
 ```sh
 # make folder for structures handled with Chimera and enter it
-mkdir -p ~/CHM696/001_structure
-cd ~/CHM696/001_structure
+mkdir -p ~/chm696-docking/001_structure
+cd ~/chm696-docking/001_structure
 # fetch file from PDB
 wget -O 2ITO.pdb.gz https://files.rcsb.org/download/2ITO.pdb1.gz
 ```
@@ -64,7 +64,7 @@ You should now have a file named `2ITO.pdb.gz` in the folder `001_structure`.
 Firefox is the internet browswer installed on Scholar. You can use it to visit RSCB PDB and download the structure coordinates. Towards the right hand side of the 2ITO entry page, click on Download Files, and select "Biological Assembly 1 (PDB - gz)"
 ![Download PDB](images/pdb_download.png)
 
-This will download the coordinates and save the file in `/homes/USERNAME/Downloads`. Move the file to `~/CHM696/001_structure` with the File Manager.
+This will download the coordinates and save the file in `/homes/USERNAME/Downloads`. Move the file to `~/chm696-docking/001_structure` with the File Manager.
 
 # Prepare structures for docking with Chimera
 
@@ -600,7 +600,7 @@ sbatch job
 
 To check on the status of the job, run `squeue` with the `-u` option to filter for your username:
 ```sh
-bsdrown@scholar-fe06:~/CHM696/005_virtual_screen $ squeue -u bsdrown
+bsdrown@scholar-fe06:~/chm696-docking/005_virtual_screen $ squeue -u bsdrown
 JOBID        USER      ACCOUNT      NAME             NODES   CPUS  TIME_LIMIT ST TIME
 302789       bsdrown   scholar      2ito_small_vs        1     32     1:00:00  R 0:18
 ```
@@ -608,7 +608,7 @@ JOBID        USER      ACCOUNT      NAME             NODES   CPUS  TIME_LIMIT ST
 The virtual screen of 100 molecules should take ~20 minutes when run on 32 CPUs. The job will be complete when it no longer appears when calling `squeue`. The `virtual.out` file will also provide a summary statement at the very end that can be viewed by running `tail virtual.out`:
 
 ```sh
-bsdrown@scholar-fe02:~/CHM696/005_virtual_screen $ tail virtual.out
+bsdrown@scholar-fe02:~/chm696-docking/005_virtual_screen $ tail virtual.out
 
                           Grid_Score:          -80.496506
                      Grid_vdw_energy:          -80.166756
@@ -625,7 +625,7 @@ Finalizing MPI Routines...
 If the small virtual screen completed successfully, we can move to screening the full library. Based on the performance of the small screen, we would expect screening the full library to take ~20 hours. An alternative strategy is to break up the library into smaller chunks that can run in separate, shorter jobs. The MCE kinase library has been split into six `.mol2` files stored at `/class/bsdrown/data/libraries/MCE_Kinase`.
 
 ```sh
-bsdrown@scholar-fe02:~/CHM696/006_virtual_screen_large $ squeue -u bsdrown
+bsdrown@scholar-fe02:~/chm696-docking/006_virtual_screen_large $ squeue -u bsdrown
 JOBID        USER      ACCOUNT      NAME             NODES   CPUS  TIME_LIMIT ST TIME
 303128       bsdrown   scholar      2ito_large_vs_6      1     32     4:00:00 PD 0:00
 303127       bsdrown   scholar      2ito_large_vs_5      1     32     4:00:00 PD 0:00
