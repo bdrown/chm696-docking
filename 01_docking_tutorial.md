@@ -1,3 +1,42 @@
+# Docking Tutorial <!-- omit from toc -->
+
+In this tutorial, we will cover the implementation of Dock 6.11 to dock ligands into a structure of EGFR-G719S in complex with gefitinib. A virtual screen will be completed against the kinase inhibitor catalog sold by [MedChemExpress](https://www.medchemexpress.com/). This tutorial is largely based on [one developed by the Rizzo lab](https://ringo.ams.stonybrook.edu/index.php/2024_DOCK_tutorial_1_with_PDBID_2ITO) at Stony Brook University.
+
+# Table of Contents <!-- omit from toc -->
+
+- [Accessing Scholar](#accessing-scholar)
+  - [Prerequisites](#prerequisites)
+  - [About compute clusters at Purdue](#about-compute-clusters-at-purdue)
+  - [Accessing Scholar via ThinLinc](#accessing-scholar-via-thinlinc)
+  - [Accessing Scholar via SSH](#accessing-scholar-via-ssh)
+    - [MacOS, Linux, or Windows 11](#macos-linux-or-windows-11)
+    - [Windows 10](#windows-10)
+  - [Setting up environment on Scholar](#setting-up-environment-on-scholar)
+- [Download a Protein Structure from the PDB](#download-a-protein-structure-from-the-pdb)
+  - [Fetch structure directly with wget (option 1)](#fetch-structure-directly-with-wget-option-1)
+  - [Download file by navigating to page with Firefox (option 2)](#download-file-by-navigating-to-page-with-firefox-option-2)
+- [Prepare structures for docking with Chimera](#prepare-structures-for-docking-with-chimera)
+  - [Fix Missing Loops](#fix-missing-loops)
+  - [Prepare Protein](#prepare-protein)
+  - [Prepare Ligand](#prepare-ligand)
+- [Creating the Protein Binding Site Surface](#creating-the-protein-binding-site-surface)
+  - [Create DMS file](#create-dms-file)
+  - [Generate Spheres for the Binding Site](#generate-spheres-for-the-binding-site)
+  - [Binding Site Spheres](#binding-site-spheres)
+  - [Box and Grid Generation](#box-and-grid-generation)
+    - [Generating the Box](#generating-the-box)
+    - [Generating the Grid](#generating-the-grid)
+- [Docking Initial Ligand](#docking-initial-ligand)
+  - [Rigid Docking](#rigid-docking)
+  - [Fixed Anchor Docking](#fixed-anchor-docking)
+  - [Flexible Docking](#flexible-docking)
+- [Virtual Screening of a Compound Library](#virtual-screening-of-a-compound-library)
+  - [Large library screening (optional)](#large-library-screening-optional)
+- [Cartesian Minimization of Virtually Screened Small Molecules](#cartesian-minimization-of-virtually-screened-small-molecules)
+- [Rescoring and Ranking Virtual-Screened Molecules](#rescoring-and-ranking-virtual-screened-molecules)
+- [Visualizing results](#visualizing-results)
+
+
 # Accessing Scholar
 
 ## Prerequisites
@@ -719,7 +758,10 @@ sbatch job
 ```
 
 # Rescoring and Ranking Virtual-Screened Molecules
-For this step, not only will we try to re-dock the molecule, but we would also re-rank the molecules based on Footprint Scoring and thus, by comparing these molecules with one another, we would be able to rank which one has the highest potential to be a potential lead.
+For this step, not only will we try to re-dock the molecule, but we would also re-rank the molecules based on Footprint Scoring and thus, by comparing these molecules with one another, we would be able to rank which one has the highest potential to be a potential lead. [Footprint Scoring](https://dock.compbio.ucsf.edu/DOCK_6/dock6_manual.htm#FootprintScore) and [Pharmacophore Matching](https://dock.compbio.ucsf.edu/DOCK_6/dock6_manual.htm#PharmacophoreScore) are two methods for identifying ligands that engage a protein receptor in a way similar to a reference ligand. Papers on Footprint and Pharmacophore scoring provide more context on these approaches:
+
+- [Jiang, L.; Rizzo, R. C. Pharmacophore-Based Similarity Scoring for DOCK. J. Phys. Chem. B 2015, 119 (3), 1083–1102.](https://pubs.acs.org/doi/10.1021/jp506555w)
+- [Balius, T. E.; Mukherjee, S.; Rizzo, R. C. Implementation and Evaluation of a Docking-Rescoring Method Using Molecular Footprint Comparisons. J. Comput. Chem. 2011, 32 (10), 2273–2289.](https://onlinelibrary.wiley.com/doi/10.1002/jcc.21814)
 
 ```
  conformer_search_type                                        rigid
@@ -838,3 +880,24 @@ Run the job:
 ```sh
 sbatch job
 ```
+
+Several files will be created:
+
+- `2ito.output_scored.mol2` - contains all of the ligand poses and their scores
+- `2ito.output_footprint_scored.mol2` - scores based on the [Footprint score](https://dock.compbio.ucsf.edu/DOCK_6/dock6_manual.htm#FootprintScore)
+- `2ito.output_hbond_scored.mol2` - hydrogen bond term of the Footprint score
+- `rescore.out` - information about how the calculations were performed
+
+# Visualizing results
+
+The results from docking and rescoring can be visualized in Chimera. Open a new session of Chimera and open `2ITO_protein_with_charges.pdb`. Open ViewDock by selecting Tools → Surface/Binding Analysis → ViewDock and open `008_rescore/2ito.out_scored.mol2` or any other docking result. Chimera will ask you which docking software was used to generate the data. Select "Dock 4, 5 or 6" and you should see a ligand bound to the protein receptor in addition to a table of ligands.
+
+![DockView initial](images/dockview_start.png)
+
+Add some of the scores to the table by selecting Column → Show and then choosing the properties you want to add. Relevant score include `Descriptor_Score`, `Footprint_Similarity_Score`, and `Pharmacophore_Score`. Sorting by scores (lower is better) allows us to identify molecules that appear to be the best candidates as ligands.
+
+We can also load the initial ligand and compare their poses. Our best scoring ligand from the screen is highly structurally similar to the initial ligand, gefinitinib. *O*-desmethylgefitinib is a major metabolite from CYP2D6 oxidation and is in [MedChemExpress's catalog](https://www.medchemexpress.com/o-desmethyl-gefitinib.html).
+
+![DockView Sorts](images/dockview_sorted.png)
+
+Gefinitib (original ligand) is shown in pink and docked *O*-desmethylgefitinib is shown in blue.
