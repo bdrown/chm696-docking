@@ -1,4 +1,4 @@
-conformer_search_type                                        fixed
+conformer_search_type                                        flex
 write_fragment_libraries                                     no
 user_specified_anchor                                        no
 limit_max_anchors                                            no

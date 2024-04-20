@@ -185,11 +185,11 @@ The ligand is ready for docking. The final step is to again save two files, a `.
 This section walks through the steps necessary to identify the binding site of the protein using a function within DOCK to place surface spheres along the protein.
 
 ## Create DMS file
-In Chimera, open the `2ITO_protein_only.pdb` file. Go to Actions -> Surface -> Show.
+In Chimera, open the `2ITO_protein_with_charges.pdb` file. Go to Actions -> Surface -> Show.
 
 ![Protein Surface](images/protein_surface.png)
 
-Generate the .dms file by selecting Tools -> Structure Editing -> Write DMS. A dialogue box will appear and you should provide a reasonable filename and save it to `002_surface_spheres`, such as `2ITO_surface.dms`. Once this file is daved, make sure the surface was created correctly. Close the current session in Chimera, open `2ITO_protein_only.pdb` and then open `2ITO_surface.dms`. The small dots (which is the .dms file) should be aligned over the protein structure. If everything looks good, we can continue to further steps.
+Generate the .dms file by selecting Tools -> Structure Editing -> Write DMS. A dialogue box will appear and you should provide a reasonable filename and save it to `002_surface_spheres`, such as `2ITO_surface.dms`. Once this file is daved, make sure the surface was created correctly. Close the current session in Chimera, open `2ITO_protein_with_charges.pdb` and then open `2ITO_surface.dms`. The small dots (which is the .dms file) should be aligned over the protein structure. If everything looks good, we can continue to further steps.
 
 ![Protein DMS](images/protein_dms.png)
 
@@ -360,6 +360,12 @@ num_scored_conformers                                        1
 rank_ligands                                                 no
 ```
 
+With the Dock input file, you're ready to run:
+
+```sh
+dock6 -i rigid.in -o rigid.out
+```
+
 ## Fixed Anchor Docking
 
 In this session, we will be showing the tutorial for Fixed Anchor Docking. For this mode of docking, the algorithm will first identify the largest fragment extracted from original ligand input. Noted that, the fragments are segmented based on the rotatable bonds of the ligands. Starting from this fragment pose, the algorithm will use it as an anchor to continuously add segments until the whole original ligand pose has been fully re-grown. Note that when each fragment is added, it will be oriented for a pose that is energetically minimal. Comparing this method to the previous rigid docking mode, fixed anchor docking offer flexibility to the side chain while still being able to keep the general location of the ligand’s binding site as it fixes the anchor position.
@@ -367,7 +373,7 @@ In this session, we will be showing the tutorial for Fixed Anchor Docking. For t
 A Dock input file `fixed.in` will be used to define how fixed anchor docking should be performed:
 
 ```
-conformer_search_type                                        fixed
+conformer_search_type                                        flex
 write_fragment_libraries                                     no
 user_specified_anchor                                        no
 limit_max_anchors                                            no
