@@ -14,7 +14,6 @@ For Problem Set 4, students will perform ligand docking in an important drug tar
 ## Recommended complex structures
 
 - [7KK3](https://www.rcsb.org/structure/7KK3) - PARP1 in complex with talazoparib
-- [3PWM](https://www.rcsb.org/structure/3pwm) - HIV protease in complex with darunavir
 - [6UOC](https://www.rcsb.org/structure/6uoc) - HDAC6 in complex with givinostat
 - [8BXH](https://www.rcsb.org/structure/8bxh) - JAK2 in complex with momelotinib
 - [4FS3](https://www.rcsb.org/structure/4FS3) - *S. aureus* FabI in complex with Debio-1452
@@ -22,6 +21,21 @@ For Problem Set 4, students will perform ligand docking in an important drug tar
 - [5YVE](https://www.rcsb.org/structure/5YVE) - P2X3 in complex with gefapixant
 - [4GV1](https://www.rcsb.org/structure/4gv1) - AKT1 in complex with capivasertib
 - [3S91](https://www.rcsb.org/structure/3S91) - Bromodomain in complex with JQ1
+- [1NDV](https://www.rcsb.org/structure/1ndv) - Adenosine deaminase
+- [1Y0X](https://www.rcsb.org/structure/1Y0X) - Thyroxine-Thyroid Hormone Receptor
+- [4S0V](https://www.rcsb.org/structure/4S0V) - Orexin receptor in complex with suvorexant
+- [3WZE](https://www.rcsb.org/structure/3WZE) - VEGFR in complex with sorafenib
+- [2P16](https://www.rcsb.org/structure/2P16) - Factor Xa in complex with apixaban
+- [6ME2](https://www.rcsb.org/structure/6ME2) - Melatonin receptor MT1 in complex with ramelteon
+- [4ZUD](https://www.rcsb.org/structure/4ZUD) - Angeotensin receptor in complex with olmesartan
+- [1X70](https://www.rcsb.org/structure/1X70) - Dipeptidyl peptidase IV in complex with sitagliptin
+- [1HW9](https://www.rcsb.org/structure/1HW9) - HMG-CoA reductase in complex with simvastatin
+- [2ZD1](https://www.rcsb.org/structure/2ZD1) - HIV reverse transcriptase in complex with rilpivirine
+- [1S19](https://www.rcsb.org/structure/1S19) - Vitamin D3 receptor in complex with calcipotriol
+- [1EFY](https://www.rcsb.org/structure/1EFY) - PARP in complex with benzimidazole
+- [2GQG](https://www.rcsb.org/structure/2GQG) - ABL in complex with dasatinib
+- [4F4P](https://www.rcsb.org/structure/4F4P) - SYK kinase
+- [6UZW](https://www.rcsb.org/structure/6UZW) - NMDA glutamate receptor in complex with UBP791
 
 ## Compound Libraries
 
