@@ -10,7 +10,7 @@ Visit the [tutorial](01_docking_tutorial.md) for more information about how to g
 
 ## Docking assignment
 
-For Problem Set 4, students will complete a virtual screen of using ligand docking. Details can be found in the [assignment description](02_docking_assignment.md).
+For Problem Set 6, students will complete a virtual screen of using ligand docking. Details can be found in the [assignment description](02_docking_assignment.md).
 
 ## Requirements
 

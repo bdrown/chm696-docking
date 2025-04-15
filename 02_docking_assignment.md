@@ -1,12 +1,12 @@
 # Docking Assignment
 
-For Problem Set 4, students will perform ligand docking in an important drug target. Students are encouraged to complete the [docking tutorial](01_docking_tutorial.md) prior to starting the assignment. Students are welcome to choose any PDB entry as their starting point, but several [recommendations](#recommended-complex-structures) are listed below.
+For Problem Set 6, students will perform ligand docking in an important drug target. Students are encouraged to complete the [docking tutorial](01_docking_tutorial.md) prior to starting the assignment. Students are welcome to choose any PDB entry as their starting point, but several [recommendations](#recommended-complex-structures) are listed below.
 
 ## Assignment Deliverables
 
-1. Screenshot of spheres that represent the receptor binding site (**10 pts**)
-2. Screenshot of original ligand in its original pose and a docked pose using flexible docking (**10 pts**)
-3. Report on the top five ligands arising from a virtual screen of a library with at least 100 compounds (**20 pts**)
+1. Screenshot of spheres that represent the receptor binding site (**5 pts**)
+2. Screenshot of original ligand in its original pose and a docked pose using flexible docking (**5 pts**)
+3. Report on the top five ligands arising from a virtual screen of a library with at least 100 compounds (**10 pts**)
    - Screenshots of their docked poses
    - List of Descriptor scores for each top ligand
    - Rationale/discussion of which ligand the student thinks is the best starting point for drug development
