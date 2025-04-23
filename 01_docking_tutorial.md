@@ -74,13 +74,7 @@ If you haven't already cloned this repository, do so now.
 git clone https://github.com/bdrown/chm696-docking.git
 ```
 
-The programs used in this tutorial and assignment are located on shared storage located at `/class/bsdrown/apps`. To make them more easily accessible, we can introduce a short script that runs whenever a terminal is openned. Connect to Scholar via ThinLinc and open the terminal. If this repository has been cloned, then copy the bash_profile to your home directory:
-
-```sh
-cp /class/bsdrown/etc/bashrc ~/.bash_profile
-```
-
-Then close and reopen your terminal. This should add `chimera` and a single-threaded version of `dock` to your path. Running `which chimera` should provide the result `/class/bsdrown/apps/chimera-1.17.3/bin/chimera`.
+The programs used in this tutorial and assignment are located on shared storage located at `/class/bsdrown/apps`.
 
 # Download a Protein Structure from the PDB
 Download a protein complex from [RSCB PDB](https://rscb.org). For this tutorial, we will be using PDB 2ITO which contains a cocrystal structure of the mutant EGFR kinase (G719S) in complex with Iressa. Enter `2ITO` into the search bar on RSCB PDB to visit the entry page for this deposited structure. PDB entry pages provide a variety of useful information.
@@ -109,7 +103,7 @@ This will download the coordinates and save the file in `/homes/USERNAME/Downloa
 
 The following steps will demonstrate the preparation of the protein and ligand which will be used by DOCK6. While there are other ways to prepare structures, Chimera makes it convenient through a graphical user interface.
 
-To launch Chimera, open a terminal and run the command `chimera`. If this fails and you have not copied the `bash_profile` as described above, the full path to Chimera is `/class/bsdrown/apps/chimera-1.17.3/bin/chimera`.
+To launch Chimera, open a terminal and run the command `apptainer run /class/bsdrown/apps/chimera_1.19.sif`.
 
 Open the `2ITO.pdb.gz` file that you downloaded from RSCB PDB and inspect the structure.
 
