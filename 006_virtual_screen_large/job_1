@@ -8,7 +8,7 @@
 #SBATCH --error=%x-%J-%u.err
 #SBATCH --output=%x-%J-%u.out
  
-module load gcc/12.3.0
-module load openmpi
+module load gcc/14.1.0
+module load openmpi/5.0.5
 
 mpirun -n 32 $DOCK_BASE_MPI/bin/dock6.mpi -i virtual_1.in -o virtual_1.out
