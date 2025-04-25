@@ -74,7 +74,13 @@ If you haven't already cloned this repository, do so now.
 git clone https://github.com/bdrown/chm696-docking.git
 ```
 
-The programs used in this tutorial and assignment are located on shared storage located at `/class/bsdrown/apps`.
+The programs used in this tutorial and assignment are located on shared storage located at `/class/bsdrown/apps`.To make them more easily accessible, we can introduce a short script that runs whenever a terminal is openned. Connect to Scholar via ThinLinc and open the terminal. If this repository has been cloned, then copy the `bash_profile` to your home directory:
+
+```sh
+cp /class/bsdrown/etc/bashrc ~/.bash_profile
+```
+
+Then close and reopen your terminal. This should add a single-threaded version of `dock` to your path. Running `which dock6` should provide the result `/class/bsdrown/apps/dock-6.11/bin/dock6`.
 
 # Download a Protein Structure from the PDB
 Download a protein complex from [RSCB PDB](https://rscb.org). For this tutorial, we will be using PDB 2ITO which contains a cocrystal structure of the mutant EGFR kinase (G719S) in complex with Iressa. Enter `2ITO` into the search bar on RSCB PDB to visit the entry page for this deposited structure. PDB entry pages provide a variety of useful information.
